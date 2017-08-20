@@ -1,2 +1,2 @@
-# Odins-Practiceasdasd
+# Odins-Practice
 The Odin Project practice tasks
