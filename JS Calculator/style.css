@@ -1,0 +1,47 @@
+.wrapper {
+    width: 400px;
+    height: 500px;
+    border: 1.5px solid rgba(0, 0, 0, 0.69);
+    border-radius: 10px;
+}
+
+.wrapper div {
+    border: 1.5px solid gray;
+}
+div{
+    user-select: none;
+}
+#screen {
+    height: 75px;
+    margin: 20px;
+    text-align: right;
+    font-size: 3em;
+    padding-top: 15px;
+    font-family: 'Roboto';
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn {
+    display: inline-block;
+    text-align: center;
+    font-size: 3em;
+    font-family: 'Roboto';
+    width: 80px;
+    height: 70px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+#a7, #a4, #a1, #a0 {
+    margin-left: 20px;
+    margin-right: 5px
+}
+
+#a8, #a5, #a2, #clear {
+    margin-right: 5px
+}
+
+#a9, #a6, #a3, #equality {
+    margin-right: 5px
+}
