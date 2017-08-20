@@ -7,14 +7,14 @@ $(document).ready(function() {
         if (mode) {
             $('#screen').empty();
             $('#screen').append($(this).text());
-            mode=false;
+            mode = false;
         } else {
             $('#screen').append($(this).text());
         }
     });
     $('#add,#substract,#multiply,#divide').click(function() {
         if (opnum > 0) {
-            mode=true;
+            mode = true;
             switch (lastoperation) {
                 case "add":
                     currentnum += Number($('#screen').html());
@@ -44,7 +44,7 @@ $(document).ready(function() {
             currentnum = Number($('#screen').html());
             lastoperation = $(this).attr("id");
             $('#screen').text(null);
-            mode=false;
+            mode = false;
         }
         opnum++;
     });
@@ -73,14 +73,15 @@ $(document).ready(function() {
             default:
                 break;
         }
-        opnum=0;
-        mode=false;
+        opnum = 0;
+        mode = false;
     });
     $('#clear').click(function() {
         currentnum = 0;
-        mode=false;
-        opnum=0;
+        mode = false;
+        opnum = 0;
         lastoperation = null;
         $('#screen').text(null);
     });
+
 });

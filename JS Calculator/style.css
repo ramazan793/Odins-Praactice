@@ -8,9 +8,11 @@
 .wrapper div {
     border: 1.5px solid gray;
 }
-div{
+
+div {
     user-select: none;
 }
+
 #screen {
     height: 75px;
     margin: 20px;
@@ -20,6 +22,11 @@ div{
     font-family: 'Roboto';
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.btn:hover {
+    border-color: #000;
+    box-shadow: 0 0 10px 4px lightgray;
 }
 
 .btn {
