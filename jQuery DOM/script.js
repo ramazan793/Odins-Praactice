@@ -22,13 +22,13 @@ $(document).ready(function() {
         var currentid=$(".active").children().attr("id");
         switch (currentid) {
             case "Menu":
-                $("#bar").text("Beefsteak, Italian Pizza, Sea-set and Pelmeni with Borsch");
+                $("#bar").children().text("Beefsteak, Italian Pizza, Sea-set and Pelmeni with Borsch");
                 break;
             case "Map":
-                $("#bar").text("You can find us at Depo Boulevard");
+                $("#bar").children().text("You can find us at Depo Boulevard");
                 break;
             case "Contact":
-                $("#bar").text("Our phone is:8(800)555-35-35");
+                $("#bar").children().text("Our phone is:8(800)555-35-35");
                 break;
         }
         if(a===$("#Map")){alert("SOSI")}
