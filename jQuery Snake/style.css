@@ -1,0 +1,14 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+#gamescreen{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    position: absolute;
+    width: 60%;
+    top:10%;
+    left:20%;
+
+}

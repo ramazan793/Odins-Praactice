@@ -4,12 +4,12 @@ $(document).ready(function() {
     var size = 16;
     var bordersize = 1;
     var mywid = s_wid * 1 / size - bordersize * 2 + "px";
-    var myhei = s_hei * 1 / size;
+    var myhei = s_wid * 1 / size - bordersize * 2 + "px";
     var isDown = false;
     $('#size-button').click(function() {
         var size = prompt("Введите размер сетки", '');
-        var mywid = s_wid * 1 / size - 2 + "px";
-        var myhei = s_hei * 1 / size;
+        var mywid = s_wid * 1 / size - bordersize * 2 + "px";
+        var myhei = s_wid * 1 / size - bordersize * 2 + "px";
         $('.square').remove();
         for (var i = 0; i < size * size; i++) {
             var div = document.createElement("div");
