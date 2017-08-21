@@ -19,7 +19,7 @@ $(document).ready(function() {
     function toggler(a) {
         $(a).parent().addClass("active");
         $(lastis).parent().removeClass("active");
-        var currentid=$(".active").children().attr("id");
+        var currentid = $(".active").children().attr("id");
         switch (currentid) {
             case "Menu":
                 $("#bar").children().text("Beefsteak, Italian Pizza, Sea-set and Pelmeni with Borsch");
@@ -31,13 +31,9 @@ $(document).ready(function() {
                 $("#bar").children().text("Our phone is:8(800)555-35-35");
                 break;
         }
-        if(a===$("#Map")){alert("SOSI")}
-        lastis=a;
+        lastis = a;
     }
     $("#Menu, #Map,#Contact").click(function() {
         toggler(this);
     });
-
-
-
 });
