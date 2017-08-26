@@ -27,7 +27,7 @@ class Snake {
         $(this.divpic).append(this.pic);
         $(this.divpic).addClass('snakehead');
     }
-    get(){
+    get() {
         return this.divpic;
     }
 }
@@ -40,7 +40,7 @@ class SnakeBody {
         $(this.divpic).append(this.pic);
         $(this.divpic).addClass('snakehead');
     }
-    get(){
+    get() {
         return this.divpic;
     }
 }
@@ -52,6 +52,14 @@ $(document).ready(function() {
     var myhei = mywid;
     var grid = matrixArray(40, 40);
     var div;
+    $(document).keypress(function(e){
+        var code = e.which; //38 39 40 37
+        if (code == 13) { //Enter keycode
+            //Do something
+            console.log("ENTER");
+        }
+    });
+
 
     function field() {
         for (var y = 0; y < size; y++) {
@@ -61,10 +69,10 @@ $(document).ready(function() {
                 $(div).addClass('square');
                 $('#gamescreen').append(div);
                 if (x == 18 && y == 19) {
-                    $(div).append(new SnakeBody(19,19).get());
+                    $(div).append(new SnakeBody(19, 19).get());
                 }
                 if (x == 19 && y == 19) {
-                    $(div).append(new Snake(19,19).get());
+                    $(div).append(new Snake(19, 19).get());
                 }
             }
         }
