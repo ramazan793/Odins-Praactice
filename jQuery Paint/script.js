@@ -2,7 +2,7 @@ $(document).ready(function() {
     var s_wid = $(document).width();
     var s_hei = $(document).height();
     var size = 16;
-    var bordersize = 1;
+    var bordersize = 0;
     var mywid = s_wid * 1 / size - bordersize * 2 + "px";
     var myhei = s_wid * 1 / size - bordersize * 2 + "px";
     var isDown = false;
