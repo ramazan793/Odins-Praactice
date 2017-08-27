@@ -182,6 +182,7 @@ $(document).ready(function() {
     var s_wid = $('#gamescreen').width();
     var mywid = s_wid * 1 / size - bordersize * 2;
     var myhei = mywid;
+<<<<<<< HEAD
     var losetext = "<h1 id=\"losetext\">You lose</h1>";
     var tryagain = "<a id=\"tryagain\" href=\"\">try again</a>";
     var newgame = false;
@@ -216,6 +217,18 @@ $(document).ready(function() {
                 break;
         }
     });
+=======
+    var grid = matrixArray(40, 40);
+    var div;
+    $(document).keypress(function(e){
+        var code = e.which; //38 39 40 37
+        if (code == 13) { //Enter keycode
+            //Do something
+            console.log("ENTER");
+        }
+    });
+
+>>>>>>> 67528388039fba2177d135c64e7e7ec4180073d0
 
     function field() {
         for (var y = 0; y < size; y++) {
@@ -231,10 +244,17 @@ $(document).ready(function() {
                     $(div).append(snake[2].get());
                 }
                 if (x == 18 && y == 19) {
+<<<<<<< HEAD
                     $(div).append(snake[1].get());
                 }
                 if (x == 19 && y == 19) {
                     $(div).append(snake[0].get());
+=======
+                    $(div).append(new SnakeBody(19, 19).get());
+                }
+                if (x == 19 && y == 19) {
+                    $(div).append(new Snake(19, 19).get());
+>>>>>>> 67528388039fba2177d135c64e7e7ec4180073d0
                 }
             }
         }
