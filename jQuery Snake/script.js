@@ -29,6 +29,10 @@ class Snake {
         this.pic = "<img src=\"Assets/snakehead.png\" alt=\"\">";
         $(this.divpic).append(this.pic);
         $(this.divpic).addClass('snake');
+        $('.snake, .snake img').css({
+            "width": mywid + bordersize * 2,
+            "height": myhei
+        });
     }
     get() {
         return this.divpic;
@@ -45,6 +49,10 @@ class SnakeBody {
         this.pic = "<img src=\"Assets/snakebody.png\" alt=\"\">";
         $(this.divpic).append(this.pic);
         $(this.divpic).addClass('snake');
+        $('.snake, .snake img').css({
+            "width": mywid + bordersize * 2,
+            "height": myhei
+        });
     }
     get() {
         return this.divpic;
@@ -61,20 +69,35 @@ var div;
 var direction = 'right';
 var xd = 1,
     yd = 0;
-var snakesize = 3;
+var snakesize = 4;
 var speed = 950; // max 980 if u r human
+var losetext = "<h1 id=\"losetext\">You lose</h1>";
+var tryagain = "<a id=\"tryagain\" >try again</a>";
+var s_wid = $('#gamescreen').width();
+var mywid = s_wid * 1 / size - bordersize * 2;
+var myhei = mywid;
+var newgame = false;
+var fixrate = 0.041;
 $(document).ready(function() {
-
     function move(a) {
+
         var currentbox = $(grid[a.x][a.y].get());
         var nextbox = $(grid[a.x + a.xd][a.y + a.yd].get());
         var a_dom = $(a.get());
+
+        if (nextbox.find('img').attr('id') == 'food') { //FOOOOOOD
+            nextbox.find('img').attr('id', 'food').remove();
+            newBody();
+            food();
+        }
+
         if (nextbox.attr('class') == 'square checkbox') { // крутит текстурки при поворотах(АНИМАЦИЯ)
             switch (nextbox.attr('id')) {
                 case 'top':
                     if (a != snake[snakesize - 1]) { //body
                         a_dom.find('img').attr('src', 'Assets/snaketwist.png');
                         if (a.direction == "right") {
+
                             a_dom.find('img').css("transform", "rotate(-180deg)");
                         } else if (a.direction == "left") {
                             a_dom.find('img').css("transform", "rotate(-90deg)");
@@ -120,9 +143,9 @@ $(document).ready(function() {
                     }
                     break;
                 default:
-
+                    break;
             }
-
+            a.direction = direction;
 
         }
 
@@ -174,18 +197,9 @@ $(document).ready(function() {
         }
         a.x += a.xd;
         a.y += a.yd;
-        a.direction = direction;
         $(grid[a.x][a.y].get()).append(a.get());
 
     }
-
-    var s_wid = $('#gamescreen').width();
-    var mywid = s_wid * 1 / size - bordersize * 2;
-    var myhei = mywid;
-<<<<<<< HEAD
-    var losetext = "<h1 id=\"losetext\">You lose</h1>";
-    var tryagain = "<a id=\"tryagain\" href=\"\">try again</a>";
-    var newgame = false;
     $(window).keydown(function(e) {
         var code = e.which; //38 39 40 37
         switch (code) {
@@ -217,18 +231,68 @@ $(document).ready(function() {
                 break;
         }
     });
-=======
-    var grid = matrixArray(40, 40);
-    var div;
-    $(document).keypress(function(e){
-        var code = e.which; //38 39 40 37
-        if (code == 13) { //Enter keycode
-            //Do something
-            console.log("ENTER");
-        }
-    });
 
->>>>>>> 67528388039fba2177d135c64e7e7ec4180073d0
+    function startingSnake() {
+        snake.push(new Snake(19, 19));
+        snake.push(new SnakeBody(18, 19));
+        snake.push(new SnakeBody(17, 19));
+        snake.push(new SnakeBody(16, 19));
+        $(grid[16][19].get()).append(snake[3].get());
+        $(grid[17][19].get()).append(snake[2].get());
+        $(grid[18][19].get()).append(snake[1].get());
+        $(grid[19][19].get()).append(snake[0].get());
+    }
+
+    function newBody() {
+        var lastsnake = snake[snakesize - 1];
+
+        var newsnake = new SnakeBody(lastsnake.x - lastsnake.xd, lastsnake.y - lastsnake.yd);
+
+        $(lastsnake.get()).find('img').attr('src', 'Assets/snakebody.png');
+        $(newsnake.get()).find('img').attr('src', 'Assets/snaketale.png');
+
+        newsnake.xd = lastsnake.xd;
+        newsnake.yd = lastsnake.yd;
+
+        newsnake.direction = lastsnake.direction;
+        switch (newsnake.direction) {
+            case 'top':
+                $(newsnake.get()).find('img').css('transform','rotate(-90deg)');
+                break;
+            case 'bottom':
+                $(newsnake.get()).find('img').css('transform','rotate(90deg)');
+                break;
+            case 'left':
+                $(newsnake.get()).find('img').css('transform','rotate(180deg)');
+                break;
+            default:
+                break;
+
+        }
+
+        snake.push(newsnake);
+        $(grid[lastsnake.x - lastsnake.xd][lastsnake.y - lastsnake.yd].get()).append(snake[snakesize].get());
+        snakesize++;
+
+        $('.snake, .snake img').css({
+            "width": mywid + bordersize * 2 + mywid * fixrate,
+            "height": myhei + mywid * fixrate
+        });
+
+    }
+
+    function food() {
+        var randomx = Math.round(Math.random() * 39);
+        var randomy = Math.round(Math.random() * 39);
+        var food = document.createElement('img');
+        $(grid[randomx][randomy].get()).append(food);
+        $(food).attr('src', 'Assets/apple.png');
+        $(food).attr('id', 'food');
+        $(food).css({
+            "width": mywid + bordersize * 2 + mywid * fixrate,
+            "height": myhei + mywid * fixrate
+        })
+    }
 
     function field() {
         for (var y = 0; y < size; y++) {
@@ -237,30 +301,14 @@ $(document).ready(function() {
                 div = grid[x][y].get();
                 $(div).addClass('square');
                 $('#gamescreen').append(div);
-                snake.push(new Snake(19, 19));
-                snake.push(new SnakeBody(18, 19));
-                snake.push(new SnakeBody(17, 19));
-                if (x == 17 && y == 19) {
-                    $(div).append(snake[2].get());
-                }
-                if (x == 18 && y == 19) {
-<<<<<<< HEAD
-                    $(div).append(snake[1].get());
-                }
-                if (x == 19 && y == 19) {
-                    $(div).append(snake[0].get());
-=======
-                    $(div).append(new SnakeBody(19, 19).get());
-                }
-                if (x == 19 && y == 19) {
-                    $(div).append(new Snake(19, 19).get());
->>>>>>> 67528388039fba2177d135c64e7e7ec4180073d0
-                }
+                if (x == 0 || y == 0 || x == 39 || y == 39)
+                    $(div).css('background-color', 'red');
             }
         }
+        startingSnake();
         $('.snake, .snake img').css({
-            "width": mywid + bordersize * 2,
-            "height": myhei
+            "width": mywid + bordersize * 2 + mywid * fixrate,
+            "height": myhei + mywid * fixrate
         });
         $('.square').css({
             "border": bordersize + "px solid gray",
@@ -275,42 +323,63 @@ $(document).ready(function() {
             'left': "-=200px"
         })
         $('#window').hide();
-        $('#tryagain').click(function() {
+        $('#window').append(losetext);
+        $('#window').append(tryagain);
+        $('#window').click(function() {
             newGame();
         });
+
     }
 
+    var s_wid = $('#gamescreen').width();
+    var mywid = s_wid * 1 / size - bordersize * 2;
+    var myhei = mywid;
+    var newgame = false;
+
     function newGame() {
-        var direction = 'right';
-        var xd = 1,
-            yd = 0;
-        var snakesize = 3;
-        newgame = true;
+        this.direction = 'right';
+        this.xd = 1;
+        this.yd = 0;
+        for (var j = this.snakesize - 1; j >= 0; j--) {
+            this.snake[j].get().remove();
+        }
+        this.snakesize = 4;
+        this.snake = [];
+        $('.square').find('img').attr('id', 'food').remove();
+        $('#window').hide();
+        startingSnake();
+        game();
+        $('.snake, .snake img').css({
+            "width": mywid + bordersize * 2 + mywid * fixrate,
+            "height": myhei + mywid * fixrate
+        });
+        $('.checkbox').removeClass('checkbox');
+    }
+
+    function game() {
+        $(snake[snakesize - 1].get()).find('img').attr("src", "Assets/snaketale.png");
+        var timerId = setInterval(function() {
+            if (snake[0].x == 39 || snake[0].y == 39 || snake[0].x == 0 || snake[0].y == 0) {
+                $('#window').show();
+                newgame = true;
+                clearInterval(timerId);
+            } else {
+                for (var j = 0; j < snakesize; j++) {
+                    move(snake[j]);
+                }
+            }
+        }, 1000 - speed);
+        food();
     }
 
     function render() {
         field();
-        $(snake[snakesize - 1].get()).find('img').attr("src", "Assets/snaketale.png");
-        var timerId = setInterval(function() {
-            if (snake[0].x != 39 && snake[0].y != 39) {
-                for (var j = 0; j < snakesize; j++) {
-                    move(snake[j]);
-                }
-            } else {
-                //alert("YOU LOSE");
-                $('#window').show();
-                $('#window').append(losetext);
-                $('#window').append(tryagain);
-                clearInterval(timerId);
-            }
-        }, 1000 - speed);
-
+        game();
     }
     if (newgame) {
-
+        newGame();
     } else {
         render();
     }
-    // $(grid[20][19].get()).append(snake[0].get());
-
+    newBody();
 });

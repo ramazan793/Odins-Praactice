@@ -16,6 +16,7 @@
 
 .snake, .snake img {
     z-index: 2;
+    opacity: 50%;
 }
 #LEV{
     position: absolute;
@@ -40,6 +41,6 @@
     text-transform: uppercase;
     margin-bottom: 10px;
 }
-#tryagain{
-
+.checkbox{
+    background-color: red;
 }
