@@ -69,8 +69,8 @@ var div;
 var direction = 'right';
 var xd = 1,
     yd = 0;
-var snakesize = 4;
-var speed = 950; // max 980 if u r human
+var snakesize = 2;
+var speed =950; // max 980 if u r human
 var losetext = "<h1 id=\"losetext\">You lose</h1>";
 var tryagain = "<a id=\"tryagain\" >try again</a>";
 var s_wid = $('#gamescreen').width();
@@ -78,78 +78,19 @@ var mywid = s_wid * 1 / size - bordersize * 2;
 var myhei = mywid;
 var newgame = false;
 var fixrate = 0.041;
+var islost = false;
+var randomx, randomy;
 $(document).ready(function() {
     function move(a) {
 
         var currentbox = $(grid[a.x][a.y].get());
-        var nextbox = $(grid[a.x + a.xd][a.y + a.yd].get());
+
         var a_dom = $(a.get());
+        var localdirection;
 
-        if (nextbox.find('img').attr('id') == 'food') { //FOOOOOOD
-            nextbox.find('img').attr('id', 'food').remove();
-            newBody();
-            food();
-        }
-
-        if (nextbox.attr('class') == 'square checkbox') { // крутит текстурки при поворотах(АНИМАЦИЯ)
-            switch (nextbox.attr('id')) {
-                case 'top':
-                    if (a != snake[snakesize - 1]) { //body
-                        a_dom.find('img').attr('src', 'Assets/snaketwist.png');
-                        if (a.direction == "right") {
-
-                            a_dom.find('img').css("transform", "rotate(-180deg)");
-                        } else if (a.direction == "left") {
-                            a_dom.find('img').css("transform", "rotate(-90deg)");
-                        }
-                    } else {
-                        a_dom.find('img').css("transform", "rotate(-90deg)"); // tale
-                    }
-                    break;
-                case 'right':
-                    if (a != snake[snakesize - 1]) { //body
-                        a_dom.find('img').attr('src', 'Assets/snaketwist.png');
-                        if (a.direction == "top") {
-                            a_dom.find('img').css("transform", "rotate(0deg)");
-                        } else if (a.direction == "bottom") {
-                            a_dom.find('img').css("transform", "rotate(-90deg)");
-                        }
-                    } else {
-                        a_dom.find('img').css("transform", "rotate(0deg)"); // tale
-                    }
-                    break;
-                case 'bottom':
-                    if (a != snake[snakesize - 1]) { //body
-                        a_dom.find('img').attr('src', 'Assets/snaketwist.png');
-                        if (a.direction == "right") {
-                            a_dom.find('img').css("transform", "rotate(90deg)");
-                        } else if (a.direction == "left") {
-                            a_dom.find('img').css("transform", "rotate(0deg)");
-                        }
-                    } else {
-                        a_dom.find('img').css("transform", "rotate(90deg)"); //tale
-                    }
-                    break;
-                case 'left':
-                    if (a != snake[snakesize - 1]) { //body
-                        a_dom.find('img').attr('src', 'Assets/snaketwist.png');
-                        if (a.direction == "top") {
-                            a_dom.find('img').css("transform", "rotate(90deg)");
-                        } else if (a.direction == "bottom") {
-                            a_dom.find('img').css("transform", "rotate(180deg)");
-                        }
-                    } else {
-                        a_dom.find('img').css("transform", "rotate(180deg)"); // tale
-                    }
-                    break;
-                default:
-                    break;
-            }
-            a.direction = direction;
-
-        }
 
         if (a == snake[0] || currentbox.attr("class") == 'square checkbox') { // меняет направление || 'поворотник'+ меняет текстурки
+
             if (currentbox.attr('id') == 'top') {
                 a.xd = 0;
                 a.yd = -1;
@@ -191,6 +132,79 @@ $(document).ready(function() {
                 }
             }
         }
+
+            var nextbox = $(grid[a.x + a.xd][a.y + a.yd].get());
+
+        if (nextbox.find('img').attr('id') == 'food') { //FOOOOOOD
+            nextbox.find('img').attr('id', 'food').remove();
+            newBody();
+            food();
+        }
+        if (a != snake[0]) {
+            if (nextbox.attr('class') == 'square checkbox') { // крутит текстурки при поворотах(АНИМАЦИЯ)
+                switch (nextbox.attr('id')) {
+                    case 'top':
+                        localdirection = 'top';
+                        if (a != snake[snakesize - 1]) { //body
+                            a_dom.find('img').attr('src', 'Assets/snaketwist.png');
+                            if (a.direction == "right") {
+
+                                a_dom.find('img').css("transform", "rotate(-180deg)");
+                            } else if (a.direction == "left") {
+                                a_dom.find('img').css("transform", "rotate(-90deg)");
+                            }
+                        } else {
+                            a_dom.find('img').css("transform", "rotate(-90deg)"); // tale
+                        }
+                        break;
+                    case 'right':
+                        localdirection = 'right';
+                        if (a != snake[snakesize - 1]) { //body
+                            a_dom.find('img').attr('src', 'Assets/snaketwist.png');
+                            if (a.direction == "top") {
+                                a_dom.find('img').css("transform", "rotate(0deg)");
+                            } else if (a.direction == "bottom") {
+                                a_dom.find('img').css("transform", "rotate(-90deg)");
+                            }
+                        } else {
+                            a_dom.find('img').css("transform", "rotate(0deg)"); // tale
+                        }
+                        break;
+                    case 'bottom':
+                        localdirection = 'bottom';
+                        if (a != snake[snakesize - 1]) { //body
+                            a_dom.find('img').attr('src', 'Assets/snaketwist.png');
+                            if (a.direction == "right") {
+                                a_dom.find('img').css("transform", "rotate(90deg)");
+                            } else if (a.direction == "left") {
+                                a_dom.find('img').css("transform", "rotate(0deg)");
+                            }
+                        } else {
+                            a_dom.find('img').css("transform", "rotate(90deg)"); //tale
+                        }
+                        break;
+                    case 'left':
+                        localdirection = 'left';
+                        if (a != snake[snakesize - 1]) { //body
+                            a_dom.find('img').attr('src', 'Assets/snaketwist.png');
+                            if (a.direction == "top") {
+                                a_dom.find('img').css("transform", "rotate(90deg)");
+                            } else if (a.direction == "bottom") {
+                                a_dom.find('img').css("transform", "rotate(180deg)");
+                            }
+                        } else {
+                            a_dom.find('img').css("transform", "rotate(180deg)"); // tale
+                        }
+                        break;
+                    default:
+                        break;
+                }
+                a.direction = localdirection;
+
+            }
+        }
+
+
         if (a == snake[snakesize - 1]) {
             currentbox.attr('id', '');
             currentbox.removeClass('checkbox');
@@ -235,10 +249,6 @@ $(document).ready(function() {
     function startingSnake() {
         snake.push(new Snake(19, 19));
         snake.push(new SnakeBody(18, 19));
-        snake.push(new SnakeBody(17, 19));
-        snake.push(new SnakeBody(16, 19));
-        $(grid[16][19].get()).append(snake[3].get());
-        $(grid[17][19].get()).append(snake[2].get());
         $(grid[18][19].get()).append(snake[1].get());
         $(grid[19][19].get()).append(snake[0].get());
     }
@@ -257,13 +267,13 @@ $(document).ready(function() {
         newsnake.direction = lastsnake.direction;
         switch (newsnake.direction) {
             case 'top':
-                $(newsnake.get()).find('img').css('transform','rotate(-90deg)');
+                $(newsnake.get()).find('img').css('transform', 'rotate(-90deg)');
                 break;
             case 'bottom':
-                $(newsnake.get()).find('img').css('transform','rotate(90deg)');
+                $(newsnake.get()).find('img').css('transform', 'rotate(90deg)');
                 break;
             case 'left':
-                $(newsnake.get()).find('img').css('transform','rotate(180deg)');
+                $(newsnake.get()).find('img').css('transform', 'rotate(180deg)');
                 break;
             default:
                 break;
@@ -281,9 +291,21 @@ $(document).ready(function() {
 
     }
 
+    function foodchecking(xx, yy) {
+        if (xx == 0 || xx == 39 || yy == 0 || yy == 39) {
+            xx = Math.round(Math.random() * 39);
+            yy = Math.round(Math.random() * 39);
+            return foodchecking(xx, yy);
+        } else {
+            randomx = xx;
+            randomy = yy;
+        }
+    }
+
     function food() {
-        var randomx = Math.round(Math.random() * 39);
-        var randomy = Math.round(Math.random() * 39);
+        randomx = Math.round(Math.random() * 39);
+        randomy = Math.round(Math.random() * 39);
+        foodchecking(randomx, randomy);
         var food = document.createElement('img');
         $(grid[randomx][randomy].get()).append(food);
         $(food).attr('src', 'Assets/apple.png');
@@ -301,8 +323,6 @@ $(document).ready(function() {
                 div = grid[x][y].get();
                 $(div).addClass('square');
                 $('#gamescreen').append(div);
-                if (x == 0 || y == 0 || x == 39 || y == 39)
-                    $(div).css('background-color', 'red');
             }
         }
         startingSnake();
@@ -343,8 +363,9 @@ $(document).ready(function() {
         for (var j = this.snakesize - 1; j >= 0; j--) {
             this.snake[j].get().remove();
         }
-        this.snakesize = 4;
+        this.snakesize = 2;
         this.snake = [];
+        this.islost = false;
         $('.square').find('img').attr('id', 'food').remove();
         $('#window').hide();
         startingSnake();
@@ -359,15 +380,18 @@ $(document).ready(function() {
     function game() {
         $(snake[snakesize - 1].get()).find('img').attr("src", "Assets/snaketale.png");
         var timerId = setInterval(function() {
-            if (snake[0].x == 39 || snake[0].y == 39 || snake[0].x == 0 || snake[0].y == 0) {
-                $('#window').show();
-                newgame = true;
-                clearInterval(timerId);
-            } else {
-                for (var j = 0; j < snakesize; j++) {
+            for (var j = 0; j < snakesize; j++) {
+                try {
                     move(snake[j]);
+                } catch (err) {
+                    islost = true;
+                    $('#window').show();
+                    newgame = true;
+                    clearInterval(timerId);
+                    break;
                 }
             }
+
         }, 1000 - speed);
         food();
     }
@@ -381,5 +405,7 @@ $(document).ready(function() {
     } else {
         render();
     }
-    newBody();
+
+
+
 });
