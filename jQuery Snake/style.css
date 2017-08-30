@@ -18,26 +18,33 @@
     z-index: 2;
     opacity: 50%;
 }
-#LEV{
+
+#LEV {
     position: absolute;
     z-index: 1;
-    top:4.5%;
-    left:79%;
+    top: 4.5%;
+    left: 79%;
     opacity: 50%;
 }
-#window{
+
+#window {
     position: absolute;
     z-index: 4;
     border: 0px solid lightgray;
     border-radius: 10px;
     width: 400px;
     height: 100px;
-    top:10%;
+    top: 10%;
     left: 50%;
     text-align: center;
 }
-#losetext{
+
+#losetext {
     font-family: sans-serif;
     text-transform: uppercase;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+}
+#pts{
+    font-family: sans-serif;
+    margin-bottom: 5px;
 }

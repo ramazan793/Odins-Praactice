@@ -70,9 +70,10 @@ var direction = 'right';
 var xd = 1,
     yd = 0;
 var snakesize = 2;
-var speed =950; // max 980 if u r human
+var speed = 950; // max 980 if u r human
 var losetext = "<h1 id=\"losetext\">You lose</h1>";
-var tryagain = "<a id=\"tryagain\" >try again</a>";
+var scoretext = "<h2 id=\"pts\" ></h2>";
+var tryagain = "<a id=\"tryagain\" >Try again</a>";
 var s_wid = $('#gamescreen').width();
 var mywid = s_wid * 1 / size - bordersize * 2;
 var myhei = mywid;
@@ -80,6 +81,7 @@ var newgame = false;
 var fixrate = 0.041;
 var islost = false;
 var randomx, randomy;
+var score = 0;
 $(document).ready(function() {
     function move(a) {
 
@@ -133,13 +135,22 @@ $(document).ready(function() {
             }
         }
 
-            var nextbox = $(grid[a.x + a.xd][a.y + a.yd].get());
+        var nextbox = $(grid[a.x + a.xd][a.y + a.yd].get());
 
         if (nextbox.find('img').attr('id') == 'food') { //FOOOOOOD
             nextbox.find('img').attr('id', 'food').remove();
             newBody();
             food();
+            score++;
         }
+
+        if (a == snake[0]) {
+            if (nextbox.find('div').attr('class') == 'snake') {
+                islost = true;
+                return;
+            }
+        }
+
         if (a != snake[0]) {
             if (nextbox.attr('class') == 'square checkbox') { // крутит текстурки при поворотах(АНИМАЦИЯ)
                 switch (nextbox.attr('id')) {
@@ -344,6 +355,7 @@ $(document).ready(function() {
         })
         $('#window').hide();
         $('#window').append(losetext);
+        $('#window').append(scoretext);
         $('#window').append(tryagain);
         $('#window').click(function() {
             newGame();
@@ -360,6 +372,7 @@ $(document).ready(function() {
         this.direction = 'right';
         this.xd = 1;
         this.yd = 0;
+        this.score=0;
         for (var j = this.snakesize - 1; j >= 0; j--) {
             this.snake[j].get().remove();
         }
@@ -374,6 +387,10 @@ $(document).ready(function() {
             "width": mywid + bordersize * 2 + mywid * fixrate,
             "height": myhei + mywid * fixrate
         });
+        $('#top').attr('id', '');
+        $('#bottom').attr('id', '');
+        $('#left').attr('id', '');
+        $('#right').attr('id', '');
         $('.checkbox').removeClass('checkbox');
     }
 
@@ -383,8 +400,16 @@ $(document).ready(function() {
             for (var j = 0; j < snakesize; j++) {
                 try {
                     move(snake[j]);
-                } catch (err) {
+                } catch (err) {   // snake trying to go out from field
                     islost = true;
+                    $('#window h2').text("Your score is : " + score + " points");
+                    $('#window').show();
+                    newgame = true;
+                    clearInterval(timerId);
+                    break;
+                }
+                if (islost == true) { //condition of death, when snake tries to eat itself
+                    $('#window h2').text("Your score is : " + score + " points");
                     $('#window').show();
                     newgame = true;
                     clearInterval(timerId);
@@ -405,6 +430,12 @@ $(document).ready(function() {
     } else {
         render();
     }
+    // for (var i = 0; i < 4; i++) {
+    //     newBody();
+    //     newBody();
+    //     newBody();
+    //     newBody();
+    // }
 
 
 
