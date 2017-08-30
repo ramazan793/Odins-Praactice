@@ -58,30 +58,6 @@ class SnakeBody {
         return this.divpic;
     }
 }
-
-
-
-var size = 40;
-var bordersize = 0;
-var grid = matrixArray(40, 40);
-var snake = [];
-var div;
-var direction = 'right';
-var xd = 1,
-    yd = 0;
-var snakesize = 2;
-var speed = 950; // max 980 if u r human
-var losetext = "<h1 id=\"losetext\">You lose</h1>";
-var scoretext = "<h2 id=\"pts\" ></h2>";
-var tryagain = "<a id=\"tryagain\" >Try again</a>";
-var s_wid = $('#gamescreen').width();
-var mywid = s_wid * 1 / size - bordersize * 2;
-var myhei = mywid;
-var newgame = false;
-var fixrate = 0.041;
-var islost = false;
-var randomx, randomy;
-var score = 0;
 (function() {
     var supportTouch = $.support.touch,
             scrollEvent = "touchmove scroll",
@@ -150,6 +126,30 @@ var score = 0;
     });
 
 })();
+
+
+var size = 40;
+var bordersize = 0;
+var grid = matrixArray(40, 40);
+var snake = [];
+var div;
+var direction = 'right';
+var xd = 1,
+    yd = 0;
+var snakesize = 2;
+var speed = 950; // max 980 if u r human
+var losetext = "<h1 id=\"losetext\">You lose</h1>";
+var scoretext = "<h2 id=\"pts\" ></h2>";
+var tryagain = "<a id=\"tryagain\" >Try again</a>";
+var s_wid = $('#gamescreen').width();
+var mywid = s_wid * 1 / size - bordersize * 2;
+var myhei = mywid;
+var newgame = false;
+var fixrate = 0.041;
+var islost = false;
+var randomx, randomy;
+var score = 0;
+
 $(document).on("pageinit", function() {
     $(document).on('swiperight', function() {
         direction = "right";
