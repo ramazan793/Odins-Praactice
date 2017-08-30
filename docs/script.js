@@ -88,6 +88,39 @@ var myhei = mywid;
 
 jQuery(document).ready(function($) {
 
+    $("#gamescreen").swipe({
+        swipe: function(event, direction, distance, duration, fingerCount) {
+            switch (direction) {
+                case 'up':
+                    direction = "top";
+                    xd = 0;
+                    yd = -1;
+                    $(grid[snake[0].x][snake[0].y].get()).addClass('checkbox').attr('id', direction); // создаётся чек-бокс, бокс поворотник.
+                    break;
+                case 'right':
+                    direction = "right";
+                    xd = 1;
+                    yd = 0;
+                    $(grid[snake[0].x][snake[0].y].get()).addClass('checkbox').attr('id', direction);
+                    break;
+                case 'down':
+                    direction = "bottom";
+                    xd = 0;
+                    yd = 1;
+                    $(grid[snake[0].x][snake[0].y].get()).addClass('checkbox').attr('id', direction);
+                    break;
+                case 'left':
+                    direction = "left";
+                    xd = -1;
+                    yd = 0;
+                    $(grid[snake[0].x][snake[0].y].get()).addClass('checkbox').attr('id', direction);
+                    break;
+                default:
+                    break;
+            }
+        },
+        threshold: 75
+    })
 
     function move(a) {
 
