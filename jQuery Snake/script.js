@@ -74,109 +74,60 @@ var speed = 950; // max 980 if u r human
 var losetext = "<h1 id=\"losetext\">You lose</h1>";
 var scoretext = "<h2 id=\"pts\" ></h2>";
 var tryagain = "<a id=\"tryagain\" >Try again</a>";
-var s_wid = $('#gamescreen').width();
-var mywid = s_wid * 1 / size - bordersize * 2;
-var myhei = mywid;
 var newgame = false;
 var fixrate = 0.041;
 var islost = false;
 var randomx, randomy;
 var score = 0;
-(function() {
-    var supportTouch = $.support.touch,
-            scrollEvent = "touchmove scroll",
-            touchStartEvent = supportTouch ? "touchstart" : "mousedown",
-            touchStopEvent = supportTouch ? "touchend" : "mouseup",
-            touchMoveEvent = supportTouch ? "touchmove" : "mousemove";
-    $.event.special.swipeupdown = {
-        setup: function() {
-            var thisObject = this;
-            var $this = $(thisObject);
-            $this.bind(touchStartEvent, function(event) {
-                var data = event.originalEvent.touches ?
-                        event.originalEvent.touches[ 0 ] :
-                        event,
-                        start = {
-                            time: (new Date).getTime(),
-                            coords: [ data.pageX, data.pageY ],
-                            origin: $(event.target)
-                        },
-                        stop;
+var s_wid = $('#gamescreen').width();
+var mywid = s_wid * 1 / size - bordersize * 2;
+var myhei = mywid;
 
-                function moveHandler(event) {
-                    if (!start) {
-                        return;
-                    }
-                    var data = event.originalEvent.touches ?
-                            event.originalEvent.touches[ 0 ] :
-                            event;
-                    stop = {
-                        time: (new Date).getTime(),
-                        coords: [ data.pageX, data.pageY ]
-                    };
 
-                    // prevent scrolling
-                    if (Math.abs(start.coords[1] - stop.coords[1]) > 10) {
-                        event.preventDefault();
-                    }
-                }
-                $this
-                        .bind(touchMoveEvent, moveHandler)
-                        .one(touchStopEvent, function(event) {
-                    $this.unbind(touchMoveEvent, moveHandler);
-                    if (start && stop) {
-                        if (stop.time - start.time < 1000 &&
-                                Math.abs(start.coords[1] - stop.coords[1]) > 30 &&
-                                Math.abs(start.coords[0] - stop.coords[0]) < 75) {
-                            start.origin
-                                    .trigger("swipeupdown")
-                                    .trigger(start.coords[1] > stop.coords[1] ? "swipeup" : "swipedown");
-                        }
-                    }
-                    start = stop = undefined;
-                });
-            });
-        }
-    };
-    $.each({
-        swipedown: "swipeupdown",
-        swipeup: "swipeupdown"
-    }, function(event, sourceEvent){
-        $.event.special[event] = {
-            setup: function(){
-                $(this).bind(sourceEvent, $.noop);
-            }
-        };
+
+
+jQuery(document).ready(function($) {
+    $(document).on('mousewheel DOMMouseScroll', function(e) {
+
+        var e0 = e.originalEvent;
+        var delta = e0.wheelDelta || -e0.detail;
+
+        this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+        e.preventDefault();
     });
-
-})();
-$(document).on("pageinit", function() {
-    $(document).on('swiperight', function() {
-        direction = "right";
-        xd = 1;
-        yd = 0;
-        $(grid[snake[0].x][snake[0].y].get()).addClass('checkbox').attr('id', direction);
+    $(document).swipe({
+        swipe: function(event, direction, distance, duration, fingerCount) {
+            switch (direction) {
+                case 'up':
+                    direction = "top";
+                    xd = 0;
+                    yd = -1;
+                    $(grid[snake[0].x][snake[0].y].get()).addClass('checkbox').attr('id', direction); // создаётся чек-бокс, бокс поворотник.
+                    break;
+                case 'right':
+                    direction = "right";
+                    xd = 1;
+                    yd = 0;
+                    $(grid[snake[0].x][snake[0].y].get()).addClass('checkbox').attr('id', direction);
+                    break;
+                case 'down':
+                    direction = "bottom";
+                    xd = 0;
+                    yd = 1;
+                    $(grid[snake[0].x][snake[0].y].get()).addClass('checkbox').attr('id', direction);
+                    break;
+                case 'left':
+                    direction = "left";
+                    xd = -1;
+                    yd = 0;
+                    $(grid[snake[0].x][snake[0].y].get()).addClass('checkbox').attr('id', direction);
+                    break;
+                default:
+                    break;
+            }
+        },
+        threshold: 75
     })
-    $(document).on('swipeleft', function() {
-        direction = "left";
-        xd = -1;
-        yd = 0;
-        $(grid[snake[0].x][snake[0].y].get()).addClass('checkbox').attr('id', direction);
-    })
-    $(document).on('swipeup', function() {
-        direction = "top";
-        xd = 0;
-        yd = -1;
-        $(grid[snake[0].x][snake[0].y].get()).addClass('checkbox').attr('id', direction);
-    })
-    $(document).on('swipedown', function() {
-        direction = "bottom";
-        xd = 0;
-        yd = 1;
-        $(grid[snake[0].x][snake[0].y].get()).addClass('checkbox').attr('id', direction);
-    })
-});
-$(document).ready(function() {
 
     function move(a) {
 
@@ -467,7 +418,7 @@ $(document).ready(function() {
         this.direction = 'right';
         this.xd = 1;
         this.yd = 0;
-        this.score=0;
+        this.score = 0;
         for (var j = this.snakesize - 1; j >= 0; j--) {
             this.snake[j].get().remove();
         }
@@ -495,7 +446,7 @@ $(document).ready(function() {
             for (var j = 0; j < snakesize; j++) {
                 try {
                     move(snake[j]);
-                } catch (err) {   // snake trying to go out from field
+                } catch (err) { // snake trying to go out from field
                     islost = true;
                     $('#window h2').text("Your score is : " + score + " points");
                     $('#window').show();

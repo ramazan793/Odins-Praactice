@@ -87,8 +87,15 @@ var myhei = mywid;
 
 
 jQuery(document).ready(function($) {
+    $(document).on('mousewheel DOMMouseScroll', function(e) {
 
-    $("#gamescreen").swipe({
+        var e0 = e.originalEvent;
+        var delta = e0.wheelDelta || -e0.detail;
+
+        this.scrollTop += (delta < 0 ? 1 : -1) * 30;
+        e.preventDefault();
+    });
+    $(document).swipe({
         swipe: function(event, direction, distance, duration, fingerCount) {
             switch (direction) {
                 case 'up':
