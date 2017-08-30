@@ -20,6 +20,9 @@ class Square {
 }
 class Snake {
     constructor(x, y) { // snakehead constructor
+        var s_wid = jQuery('#gamescreen').width();
+        var mywid = s_wid * 1 / size - bordersize * 2;
+        var myhei = mywid;
         this.xd = 1;
         this.yd = 0;
         this.x = x;
@@ -39,7 +42,11 @@ class Snake {
     }
 }
 class SnakeBody {
+
     constructor(x, y) { // snakehead constructor
+        var s_wid = jQuery('#gamescreen').width();
+        var mywid = s_wid * 1 / size - bordersize * 2;
+        var myhei = mywid;
         this.xd = 1;
         this.yd = 0;
         this.x = x;
@@ -79,9 +86,8 @@ var fixrate = 0.041;
 var islost = false;
 var randomx, randomy;
 var score = 0;
-var s_wid = jQuery('#gamescreen').width();
-var mywid = s_wid * 1 / size - bordersize * 2;
-var myhei = mywid;
+
+
 
 (function() {
     var supportTouch = $.support.touch,
@@ -182,7 +188,9 @@ jQuery(document).on("pageinit", function($) {
 });
 
 jQuery(document).ready(function($) {
-
+    var s_wid = jQuery('#gamescreen').width();
+    var mywid = s_wid * 1 / size - bordersize * 2;
+    var myhei = mywid;
 
     function move(a) {
 
