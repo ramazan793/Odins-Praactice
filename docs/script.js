@@ -74,8 +74,6 @@ var speed = 950; // max 980 if u r human
 var losetext = "<h1 id=\"losetext\">You lose</h1>";
 var scoretext = "<h2 id=\"pts\" ></h2>";
 var tryagain = "<a id=\"tryagain\" >Try again</a>";
-var mywid = s_wid * 1 / size - bordersize * 2;
-var myhei = mywid;
 var newgame = false;
 var fixrate = 0.041;
 var islost = false;
@@ -178,6 +176,8 @@ $(document).on("pageinit", function() {
 });
 $(document).ready(function() {
     var s_wid = $('#gamescreen').width();
+    var mywid = s_wid * 1 / size - bordersize * 2;
+    var myhei = mywid;
     function move(a) {
 
         var currentbox = $(grid[a.x][a.y].get());
