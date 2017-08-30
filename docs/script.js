@@ -79,11 +79,11 @@ var fixrate = 0.041;
 var islost = false;
 var randomx, randomy;
 var score = 0;
-var s_wid = $('#gamescreen').width();
+var s_wid = jQuery('#gamescreen').width();
 var mywid = s_wid * 1 / size - bordersize * 2;
 var myhei = mywid;
 
-jQuery(document).ready(function() {
+jQuery(document).ready(function($) {
 
 
     function move(a) {

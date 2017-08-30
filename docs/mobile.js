@@ -1,4 +1,4 @@
-jQuery(document).on("pageinit", function() {
+jQuery(document).on("pageinit", function($) {
     (function() {
         var supportTouch = $.support.touch,
                 scrollEvent = "touchmove scroll",
