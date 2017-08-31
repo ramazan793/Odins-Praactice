@@ -24,7 +24,6 @@ class Snake {
         this.yd = 0;
         this.x = x;
         this.y = y;
-        this.direction = 'right';
         this.divpic = document.createElement('div');
         this.pic = "<img src=\"Assets/snakehead.png\" alt=\"\">";
         $(this.divpic).append(this.pic);
@@ -79,22 +78,31 @@ var fixrate = 0.041;
 var islost = false;
 var randomx, randomy;
 var score = 0;
-var s_wid = $('#gamescreen').width();
-var mywid = s_wid * 1 / size - bordersize * 2;
+var s_wid;
+var mywid;
+var myhei;
+var docwid = $(window).width();
+if ($(window).height() > $(window).width()) {
+    var s_wid = $(window).width() * .8;
+} else {
+    var s_wid = $(window).height() * .8;
+}
+var mywid = s_wid / 40;
 var myhei = mywid;
 
 
 
-
 jQuery(document).ready(function($) {
-    $(document).on('mousewheel DOMMouseScroll', function(e) {
-
-        var e0 = e.originalEvent;
-        var delta = e0.wheelDelta || -e0.detail;
-
-        this.scrollTop += (delta < 0 ? 1 : -1) * 30;
-        e.preventDefault();
+    if ($(window).height() > $(window).width()) {
+        $('#gamescreen').width($(window).width() * .8);
+    } else {
+        $('#gamescreen').width($(window).height() * .8);
+    }
+    $('#gamescreen').css({
+        'left': (docwid - s_wid) / 2
     });
+
+
     $(document).swipe({
         swipe: function(event, direction, distance, duration, fingerCount) {
             switch (direction) {
@@ -126,7 +134,8 @@ jQuery(document).ready(function($) {
                     break;
             }
         },
-        threshold: 75
+        threshold: 75,
+        allowPageScroll: 'none'
     })
 
     function move(a) {
@@ -271,28 +280,41 @@ jQuery(document).ready(function($) {
         $(grid[a.x][a.y].get()).append(a.get());
 
     }
+
     $(window).keydown(function(e) {
         var code = e.which; //38 39 40 37
         switch (code) {
             case 38:
+                if (direction == "bottom") {
+                    break;
+                }
                 direction = "top";
                 xd = 0;
                 yd = -1;
                 $(grid[snake[0].x][snake[0].y].get()).addClass('checkbox').attr('id', direction); // создаётся чек-бокс, бокс поворотник.
                 break;
             case 39:
+                if (direction == "left") {
+                    break;
+                }
                 direction = "right";
                 xd = 1;
                 yd = 0;
                 $(grid[snake[0].x][snake[0].y].get()).addClass('checkbox').attr('id', direction);
                 break;
             case 40:
+                if (direction == "top") {
+                    break;
+                }
                 direction = "bottom";
                 xd = 0;
                 yd = 1;
                 $(grid[snake[0].x][snake[0].y].get()).addClass('checkbox').attr('id', direction);
                 break;
             case 37:
+                if (direction == "right") {
+                    break;
+                }
                 direction = "left";
                 xd = -1;
                 yd = 0;
@@ -379,19 +401,23 @@ jQuery(document).ready(function($) {
                 grid[x][y] = new Square(x, y);
                 div = grid[x][y].get();
                 $(div).addClass('square');
+                // if (x == 39) {
+                //     $(div).append(x);
+                // }
                 $('#gamescreen').append(div);
             }
         }
         startingSnake();
-        $('.snake, .snake img').css({
-            "width": mywid + bordersize * 2 + mywid * fixrate,
-            "height": myhei + mywid * fixrate
-        });
         $('.square').css({
             "border": bordersize + "px solid gray",
             "width": mywid,
-            "height": myhei
+            "height": mywid
         });
+        $('.snake, .snake img').css({
+            "width": mywid + bordersize * 2 + mywid * fixrate,
+            "height": mywid + mywid * fixrate
+        });
+
 
         $('#window').css({
             'top': "+=" + (s_wid * .5 - 50) + "px",
@@ -409,9 +435,6 @@ jQuery(document).ready(function($) {
 
     }
 
-    var s_wid = $('#gamescreen').width();
-    var mywid = s_wid * 1 / size - bordersize * 2;
-    var myhei = mywid;
     var newgame = false;
 
     function newGame() {

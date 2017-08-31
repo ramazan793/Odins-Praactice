@@ -24,7 +24,6 @@ class Snake {
         this.yd = 0;
         this.x = x;
         this.y = y;
-        this.direction = 'right';
         this.divpic = document.createElement('div');
         this.pic = "<img src=\"Assets/snakehead.png\" alt=\"\">";
         $(this.divpic).append(this.pic);
@@ -286,24 +285,36 @@ jQuery(document).ready(function($) {
         var code = e.which; //38 39 40 37
         switch (code) {
             case 38:
+                if (direction == "bottom") {
+                    break;
+                }
                 direction = "top";
                 xd = 0;
                 yd = -1;
                 $(grid[snake[0].x][snake[0].y].get()).addClass('checkbox').attr('id', direction); // создаётся чек-бокс, бокс поворотник.
                 break;
             case 39:
+                if (direction == "left") {
+                    break;
+                }
                 direction = "right";
                 xd = 1;
                 yd = 0;
                 $(grid[snake[0].x][snake[0].y].get()).addClass('checkbox').attr('id', direction);
                 break;
             case 40:
+                if (direction == "top") {
+                    break;
+                }
                 direction = "bottom";
                 xd = 0;
                 yd = 1;
                 $(grid[snake[0].x][snake[0].y].get()).addClass('checkbox').attr('id', direction);
                 break;
             case 37:
+                if (direction == "right") {
+                    break;
+                }
                 direction = "left";
                 xd = -1;
                 yd = 0;
