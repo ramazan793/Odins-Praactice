@@ -8,9 +8,7 @@
     flex-wrap: wrap;
     flex-direction: row;
     position: absolute;
-    width: 60%;
     top: 10%;
-    left: 20%;
     border: 5px dotted rgb(83, 142, 57);
 }
 
