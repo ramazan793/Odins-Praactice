@@ -285,7 +285,7 @@ jQuery(document).ready(function($) {
         var code = e.which; //38 39 40 37
         switch (code) {
             case 38:
-                if (direction == "bottom") {
+                if (direction == "bottom" && direction == "top") {
                     break;
                 }
                 direction = "top";
@@ -294,7 +294,7 @@ jQuery(document).ready(function($) {
                 $(grid[snake[0].x][snake[0].y].get()).addClass('checkbox').attr('id', direction); // создаётся чек-бокс, бокс поворотник.
                 break;
             case 39:
-                if (direction == "left") {
+                if (direction == "left" && direction == "right") {
                     break;
                 }
                 direction = "right";
@@ -303,7 +303,7 @@ jQuery(document).ready(function($) {
                 $(grid[snake[0].x][snake[0].y].get()).addClass('checkbox').attr('id', direction);
                 break;
             case 40:
-                if (direction == "top") {
+                if (direction == "top" && direction == "bottom") {
                     break;
                 }
                 direction = "bottom";
@@ -312,7 +312,7 @@ jQuery(document).ready(function($) {
                 $(grid[snake[0].x][snake[0].y].get()).addClass('checkbox').attr('id', direction);
                 break;
             case 37:
-                if (direction == "right") {
+                if (direction == "right" && direction == "left") {
                     break;
                 }
                 direction = "left";
